@@ -8,4 +8,8 @@
     <Folder Include="Controllers\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\PropertyDeals.Infrastructure\PropertyDeals.Infrastructure.csproj" />
+  </ItemGroup>
+
 </Project>
