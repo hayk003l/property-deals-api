@@ -5,7 +5,6 @@ namespace PropertyDeals.Application.Abstractions;
 
 public interface IAppDbContext
 {
-
     DbSet<User> Users { get; }
     DbSet<Deal> Deals { get; }
     DbSet<Document> Documents { get; }

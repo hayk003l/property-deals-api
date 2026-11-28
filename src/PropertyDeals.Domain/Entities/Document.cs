@@ -9,6 +9,7 @@ namespace PropertyDeals.Domain.Entities;
 public class Document : AggregateRoot
 {
     public const int FileNameMaxLength = 255;
+    public const int S3KeyMaxLength = 100;
 
     private static readonly HashSet<string> AllowedExtensions =
     [".pdf", ".doc", ".docx", ".jpg", ".jpeg", ".png"];
