@@ -1,9 +1,9 @@
-name: property-deals-postgres
+name: property-deals
 
 services:
   postgres:
     image: postgres:17
-    container_name: postgres-container
+    container_name: property-deals-postgres
     environment:
       POSTGRES_DB: ${POSTGRES_DB}
       POSTGRES_USER: ${POSTGRES_USER}
@@ -21,4 +21,3 @@ services:
 
 volumes:
   postgres-data:
-       
