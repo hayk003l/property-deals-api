@@ -1,6 +1,6 @@
-using PropertyDeals.Domain.Exceptions;
+using System.Runtime.CompilerServices;
 
-namespace PropertyDeals.Domain.Entities;
+namespace PropertyDeals.Infrastructure.Outbox;
 
 public class OutboxMessage
 {
@@ -22,28 +22,28 @@ public class OutboxMessage
 
     public static OutboxMessage Create(Guid id, string type, string payload, DateTime occurredOnUtc)
     {
-        Guard.EnsureUtc(occurredOnUtc);
+        EnsureUtc(occurredOnUtc);
 
         if (id == Guid.Empty)
         {
-            throw new DomainValidationException("Id cannot be empty.");
+            throw new ArgumentException("Id cannot be empty.", nameof(id));
         }
 
         if (string.IsNullOrWhiteSpace(type))
         {
-            throw new DomainValidationException("Type cannot be empty or whitespace.");
+            throw new ArgumentException("Type cannot be empty or whitespace.", nameof(type));
         }
 
         type = type.Trim();
 
         if (type.Length > TypeMaxLength)
         {
-            throw new DomainValidationException($"Type cannot be longer than {TypeMaxLength} characters.");
+            throw new ArgumentException($"Type cannot be longer than {TypeMaxLength} characters.", nameof(type));
         }
 
         if (string.IsNullOrWhiteSpace(payload))
         {
-            throw new DomainValidationException("Payload cannot be empty or whitespace.");
+            throw new ArgumentException("Payload cannot be empty or whitespace.", nameof(payload));
         }
 
         return new OutboxMessage { Id = id, Type = type, Payload = payload, OccurredOnUtc = occurredOnUtc };
@@ -51,7 +51,7 @@ public class OutboxMessage
 
     public void MarkProcessed(DateTime utcNow)
     {
-        Guard.EnsureUtc(utcNow);
+        EnsureUtc(utcNow);
 
         ProcessedOnUtc = utcNow;
         Error = null;
@@ -62,5 +62,13 @@ public class OutboxMessage
         error = string.IsNullOrWhiteSpace(error) ? "Unknown error." : error.Trim();
         Error = error.Length > ErrorMaxLength ? error[..ErrorMaxLength] : error;
         Attempts++;
+    }
+
+    private static void EnsureUtc(DateTime value, [CallerArgumentExpression(nameof(value))] string? paramName = null)
+    {
+        if (value.Kind != DateTimeKind.Utc)
+        {
+            throw new ArgumentException($"{paramName} must be a UTC time, but its Kind is {value.Kind}.", paramName);
+        }
     }
 }

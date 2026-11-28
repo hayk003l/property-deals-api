@@ -1,6 +1,6 @@
-﻿using PropertyDeals.Domain.Exceptions;
 using System.Diagnostics.CodeAnalysis;
 using System.Text.RegularExpressions;
+using PropertyDeals.Domain.Exceptions;
 
 namespace PropertyDeals.Domain.ValueObjects;
 
@@ -10,7 +10,7 @@ public sealed partial record Address
     public const int CityMaxLength = 100;
     public const int StateMaxLength = 100;
     public const int ZipCodeMaxLength = 10;
-    public const int CountryLength = 2;
+    public const int CountryMaxLength = 2;
 
     public string Street { get; }
     public string City { get; }

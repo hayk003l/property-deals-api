@@ -1,13 +1,15 @@
-using PropertyDeals.Domain.Entities;
-using PropertyDeals.Domain.Exceptions;
-using static PropertyDeals.Domain.Tests.TestData;
+using PropertyDeals.Infrastructure.Outbox;
 
-namespace PropertyDeals.Domain.Tests.Entities;
+namespace PropertyDeals.Infrastructure.Tests.Outbox;
 
 public class OutboxMessageTests
 {
     private const string Type = "DealStatusChanged";
     private const string Payload = "{\"dealId\":1}";
+
+    private static readonly DateTime Now = new(2026, 1, 15, 10, 0, 0, DateTimeKind.Utc);
+
+    private static DateTime NowAs(DateTimeKind kind) => DateTime.SpecifyKind(Now, kind);
 
     private static OutboxMessage NewMessage() => OutboxMessage.Create(Guid.NewGuid(), Type, Payload, Now);
 
@@ -37,18 +39,18 @@ public class OutboxMessageTests
     }
 
     [Fact]
-    public void Create_WithEmptyId_ThrowsDomainValidationException()
+    public void Create_WithEmptyId_ThrowsArgumentException()
     {
-        Assert.Throws<DomainValidationException>(() => OutboxMessage.Create(Guid.Empty, Type, Payload, Now));
+        Assert.Throws<ArgumentException>(() => OutboxMessage.Create(Guid.Empty, Type, Payload, Now));
     }
 
     [Theory]
     [InlineData(null)]
     [InlineData("")]
     [InlineData("   ")]
-    public void Create_WithMissingType_ThrowsDomainValidationException(string? type)
+    public void Create_WithMissingType_ThrowsArgumentException(string? type)
     {
-        Assert.Throws<DomainValidationException>(() => OutboxMessage.Create(Guid.NewGuid(), type!, Payload, Now));
+        Assert.Throws<ArgumentException>(() => OutboxMessage.Create(Guid.NewGuid(), type!, Payload, Now));
     }
 
     [Fact]
@@ -62,20 +64,20 @@ public class OutboxMessageTests
     }
 
     [Fact]
-    public void Create_WithTypeAboveMaxLength_ThrowsDomainValidationException()
+    public void Create_WithTypeAboveMaxLength_ThrowsArgumentException()
     {
         var type = new string('a', OutboxMessage.TypeMaxLength + 1);
 
-        Assert.Throws<DomainValidationException>(() => OutboxMessage.Create(Guid.NewGuid(), type, Payload, Now));
+        Assert.Throws<ArgumentException>(() => OutboxMessage.Create(Guid.NewGuid(), type, Payload, Now));
     }
 
     [Theory]
     [InlineData(null)]
     [InlineData("")]
     [InlineData("   ")]
-    public void Create_WithMissingPayload_ThrowsDomainValidationException(string? payload)
+    public void Create_WithMissingPayload_ThrowsArgumentException(string? payload)
     {
-        Assert.Throws<DomainValidationException>(() => OutboxMessage.Create(Guid.NewGuid(), Type, payload!, Now));
+        Assert.Throws<ArgumentException>(() => OutboxMessage.Create(Guid.NewGuid(), Type, payload!, Now));
     }
 
     [Theory]
