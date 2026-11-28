@@ -1,18 +1,19 @@
 <Solution>
   <Folder Name="/src/" />
-  <Folder Name="/src/Application/">
-    <Project Path="src/PropertyDeals.Application/PropertyDeals.Application.csproj" Id="65e70e34-eb57-4918-8713-586d6e024831" />
-  </Folder>
-  <Folder Name="/src/Domain/">
+  <Folder Name="/src/1. Domain/">
     <Project Path="src/PropertyDeals.Domain/PropertyDeals.Domain.csproj" Id="d8a899c3-ca5b-4f8c-8ae0-f0215cddeb14" />
   </Folder>
-  <Folder Name="/src/Infrastructure/">
+  <Folder Name="/src/2. Application/">
+    <Project Path="src/PropertyDeals.Application/PropertyDeals.Application.csproj" Id="65e70e34-eb57-4918-8713-586d6e024831" />
+  </Folder>
+  <Folder Name="/src/3. Infrastructure/">
     <Project Path="src/PropertyDeals.Infrastructure/PropertyDeals.Infrastructure.csproj" Id="9b0b2d79-1893-464f-ab0f-5a783c72cc16" />
   </Folder>
-  <Folder Name="/src/Presentation/">
+  <Folder Name="/src/4. Presentation/">
     <Project Path="src/PropertyDeals.API/PropertyDeals.API.csproj" />
   </Folder>
   <Folder Name="/tests/">
     <Project Path="tests/PropertyDeals.Domain.Tests/PropertyDeals.Domain.Tests.csproj" />
+    <Project Path="tests/PropertyDeals.Infrastructure.Tests/PropertyDeals.Infrastructure.Tests.csproj" />
   </Folder>
 </Solution>
